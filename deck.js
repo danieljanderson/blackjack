@@ -13,7 +13,7 @@ var newDeck = (function(){
 		function getDeck(){
 		var deck=[]
 		for (i=0;i<SUITS.length;i++){
-			for(j=0;j<ORDER_VALUE;i++){
+			for(j=0;j<ORDER_VALUE.length;j++){
 					var card = getCard(SUITS[i],ORDER_VALUE[j])
 					deck.push(card)
 					}
@@ -44,12 +44,11 @@ var newDeck = (function(){
 	
 
   var module ={
-		'Cards':getCard,
-		'Deck':getDeck,
-		'Shoe':shoe,
+		'getCard':getCard,
+		'getDeck':getDeck,
+		'getShoe':shoe,
 		'Shuffle':shuffle
 	}
   return module
 })()
 //module.exports=newDeck
-
