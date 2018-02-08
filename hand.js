@@ -1,7 +1,8 @@
 var player = (function(){
-  var hand = {
-    'cards':[],
-    'value':0
+  function hand(){
+    this.cards = [],
+    this.value = 0,
+    this.money = 0
   }  
   
   var module = {

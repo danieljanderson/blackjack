@@ -6,6 +6,7 @@ var newDeck = (function(){
 				var singleCard={
 			 	'suit':suit,
 				'value':value,
+				'flip_over':true,
 				'image':'image/'+suit+value
 		 			}
 		return singleCard
@@ -51,4 +52,4 @@ var newDeck = (function(){
 	}
   return module
 })()
-//module.exports=newDeck
+module.exports=newDeck
