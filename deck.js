@@ -5,7 +5,8 @@ var newDeck = (function(){
 		function getCard(suit,value){
 				var singleCard={
 			 	'suit':suit,
-				'value':value,
+				'order':value,
+				'value':value,	
 				'flip_over':true,
 				'image':'image/'+suit+value
 		 			}

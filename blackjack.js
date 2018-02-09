@@ -10,17 +10,17 @@ var blackjack = (function (num){
           //get deck which takes a deck
           function getScore (hand){
             var total = 0
-            for (i=0;i<hand.length;i++){
-                if (hand[i].value==='King'||hand[i].value==='Queen'||hand[i].value==='Jack'){
-                    hand[i].value = 10
+            for (j=0;j<hand.length;j++){
+                if (hand[j].value==='King'||hand[j].value==='Queen'||hand[j].value==='Jack'){
+                    hand[j].value = 10
                  }
-                else if (hand[i].value ==='Ace'){
-                    hand[i].value = 11
+                else if (hand[j].value ==='Ace'){
+                    hand[j].value = 11
                   }
                 else{
-                    hand[i].value = Number(hand[i].value)
+                    hand[j].value = Number(hand[j].value)
                     }
-              total = total + hand[i].value
+              total = total + hand[j].value
               }
             return total
           }

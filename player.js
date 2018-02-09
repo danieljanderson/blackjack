@@ -3,7 +3,7 @@ var player = (function(){
     this.name = '',
     this.cards = [],
     this.dealer = false,  
-    this.handValue = 0,
+    this.value = 0,
     this.money = 0
   }  
   
