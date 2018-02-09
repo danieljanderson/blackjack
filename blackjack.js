@@ -19,7 +19,7 @@ var blackjack = (function (num){
               var listOfPlayers = [] 
                   //start the loop at one because thats how normal people count
                   for(i=1;i<=num+1;i++){
-                      var blackjackPlayer = new player.hand() 
+                      var blackjackPlayer = new player.Hand() 
                       blackjackPlayer.name = 'player'+ i
                   if (i===num+1){
                       blackjackPlayer.name = 'dealer'
@@ -27,15 +27,20 @@ var blackjack = (function (num){
                   }
                   listOfPlayers.push(blackjackPlayer)
                   }
+                //to acess the players its variablename[index]. and what you want
                 return listOfPlayers
                 
           }
-          
+          function draw(deck){
+              var tempCard= deck.splice(1,1)
+              return tempCard
+          }
      
       
   var module ={
 		'getDeck':getDeck,
-    'getPlayer':getPlayer
+    'getPlayer':getPlayer,
+    'draw':draw
     
 	}
   return module

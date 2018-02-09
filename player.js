@@ -1,5 +1,5 @@
 var player = (function(){
-  function hand(){
+  function Hand(){
     this.name = '',
     this.cards = [],
     this.dealer = false,  
@@ -8,7 +8,7 @@ var player = (function(){
   }  
   
   var module = {
-      'hand':hand
+      'hand':Hand
   }
   return module  
 })()
