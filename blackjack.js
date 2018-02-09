@@ -1,5 +1,6 @@
 //var DECK = require('./deck.js')
 var blackjack = (function (num){
+          // to add a single card to a players hand it would be hand.push(draw(deck))
           //calculate dealer hands if >=17 dealer stays
           //dealer flips two cards
           //calculate hand value
@@ -7,12 +8,30 @@ var blackjack = (function (num){
           //player draws two cards takes (player hand and deck)
           //shuffle deck  takes deck 
           //get deck which takes a deck
-          
-        // takes a number and  returns a shuffled shoe with that many decks
+          function getScore (hand){
+            var total = 0
+            for (i=0;i<hand.length;i++){
+                if (hand[i].value==='King'||hand[i].value==='Queen'||hand[i].value==='Jack'){
+                    hand[i].value = 10
+                 }
+                else if (hand[i].value ==='Ace'){
+                    hand[i].value = 11
+                  }
+                else{
+                    hand[i].value = Number(hand[i].value)
+                    }
+              total = total + hand[i].value
+              }
+            return total
+          }
+        
+          // takes a number and  returns a shuffled shoe with that many decks that many times *5
           function getDeck(num){  
               var blackjackDeck = newDeck.getShoe(num)
-              var readyDeck = newDeck.Shuffle(blackjackDeck)
-              return readyDeck
+              for (i=0; i<=num*5;i++){
+                  blackjackDeck = newDeck.Shuffle(blackjackDeck)
+              }
+              return blackjackDeck
               }
           // takes a number and  returns that many  players hand plus a dealer
           function getPlayer(num){
@@ -40,7 +59,8 @@ var blackjack = (function (num){
   var module ={
 		'getDeck':getDeck,
     'getPlayer':getPlayer,
-    'draw':draw
+    'draw':draw,
+    'getScore':getScore
     
 	}
   return module
