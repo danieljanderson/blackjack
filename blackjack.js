@@ -12,17 +12,18 @@ var blackjack = (function (num){
           //player draws two cards takes (player hand and deck)
           //shuffle deck  takes deck 
           //get deck which takes a deck
-          function startGame(listOfPlayers,deck){
-						for (var i = 0; i<listOfPlayers.length;i++){
-								for (var numCards = 1;numCards<=2;numCards++){
-									listOfPlayers[i].hand = listOfPlayers[i].hand.concat(draw(deck))
-								}
+          
+			function startGame(listOfPlayers,deck){
+				for (var i = 0; i<listOfPlayers.length;i++){
+						for (var numCards = 1;numCards<=2;numCards++){
+						listOfPlayers[i].hand = listOfPlayers[i].hand.concat(draw(deck))
+							}
 						}
 						
-					}
-					function getScore (hand){
+			}
+			function getScore (hand){
             var total = 0
-            for (j=0;j<hand.length;j++){
+    						for (j=0;j<hand.length;j++){
                 if (hand[j].value==='King'||hand[j].value==='Queen'||hand[j].value==='Jack'){
                     hand[j].value = 10
                  }
@@ -36,9 +37,13 @@ var blackjack = (function (num){
               }
             return total
           }
+			function hit (hand,deck){
+					hand = hand.concat(draw(deck))
+					return hand
+			}
         
           // takes a number and  returns a shuffled shoe with that many decks that many times *5
-          function getDeck(num){  
+      function getDeck(num){  
               var blackjackDeck = newDeck.getShoe(num)
               for (i=0; i<=num*5;i++){
                   blackjackDeck = newDeck.Shuffle(blackjackDeck)
@@ -46,7 +51,7 @@ var blackjack = (function (num){
               return blackjackDeck
               }
           // takes a number and  returns that many  players hand plus a dealer
-          function getPlayer(num){
+      function getPlayer(num){
               var listOfPlayers = [] 
                   //start the loop at one because thats how normal people count
                   for(i=1;i<=num+1;i++){
@@ -62,18 +67,20 @@ var blackjack = (function (num){
                 return listOfPlayers
                 
           }
-          function draw(deck){
+	
+     function draw(deck){
               var tempCard= deck.splice(1,1)
               return tempCard
           }
      
       
-  var module ={
+	var module ={
 		'getDeck':getDeck,
     'getPlayer':getPlayer,
     'draw':draw,
     'getScore':getScore,
-		'startGame':startGame
+		'startGame':startGame,
+		'hit':hit
     
 	}
   return module
