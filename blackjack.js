@@ -1,6 +1,7 @@
 //var DECK = require('./deck.js')
 var blackjack = (function (num){
-         	// to start deal to start the game have a nested for loop where it looks like this...  2 beacue in black jack you start off with 2 cards always
+         	// to get the score to display correctly you have to player[1].value=blackjack.getScore(player[1].hand).
+					// to start deal to start the game have a nested for loop where it looks like this...  2 beacue in black jack you start off with 2 cards always
 					// for (i=0;i<=2;i++)
 					//		for(j=0;j<=numberofplaers_including_dealer;j++)
 					//			numberofplayers[j] draws and then it gos around.  flip the order of the j and i loops if you deal 2 cards at a time
@@ -17,15 +18,24 @@ var blackjack = (function (num){
 				for (var i = 0; i<listOfPlayers.length;i++){
 						for (var numCards = 1;numCards<=2;numCards++){
 						listOfPlayers[i].hand = listOfPlayers[i].hand.concat(draw(deck))
+						if (listOfPlayers[i].dealer && numCards===1){
+									listOfPlayers[i].hand[0].flipOver = false
+								}
 							}
 						}
 						
-			}
-			function getScore (hand){
-            var total = 0
-    						for (j=0;j<hand.length;j++){
-                if (hand[j].value==='King'||hand[j].value==='Queen'||hand[j].value==='Jack'){
-                    hand[j].value = 10
+				}
+			function getHandTotal (hand){
+    	var total = 0
+			//checks to see if the total is greater than 21.
+			isBust(hand)
+								for (j=0;j<hand.length;j++){
+								// the if statement checks to see if the total is more than 21 and if so makes the ace 1.
+								if (isBust&&hand[j].value==11){
+									hand[j].value=1
+								}	
+               else if (hand[j].value==='King'||hand[j].value==='Queen'||hand[j].value==='Jack'){
+                    hand[j].value= 10
                  }
                 else if (hand[j].value ==='Ace'){
                     hand[j].value = 11
@@ -33,9 +43,9 @@ var blackjack = (function (num){
                 else{
                     hand[j].value = Number(hand[j].value)
                     }
-              total = total + hand[j].value
+            total = hand[j]+total
               }
-            return total
+          	return total
           }
 			function hit (hand,deck){
 					hand = hand.concat(draw(deck))
@@ -67,6 +77,21 @@ var blackjack = (function (num){
                 return listOfPlayers
                 
           }
+		 function isTwentyOne(hand){
+			 if(hand[0].value===10||11){
+				 if(hand[1].value===10||11){
+					 return true
+				 }
+			 }
+		 }
+		 function isBust (score){
+			 if (score>21){
+				 return true
+			 }
+			 else{
+				 return false
+			 }
+		 }
 	
      function draw(deck){
               var tempCard= deck.splice(1,1)
@@ -78,9 +103,11 @@ var blackjack = (function (num){
 		'getDeck':getDeck,
     'getPlayer':getPlayer,
     'draw':draw,
-    'getScore':getScore,
+    'getHandTotal':getHandTotal,
 		'startGame':startGame,
-		'hit':hit
+		'hit':hit,
+		'isBust':isBust,
+		'isTwentyOne':isTwentyOne,
     
 	}
   return module
