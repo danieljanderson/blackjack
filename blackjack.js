@@ -13,7 +13,9 @@ var blackjack = (function (num){
           //player draws two cards takes (player hand and deck)
           //shuffle deck  takes deck 
           //get deck which takes a deck
-          
+         var Deck = casino.Deck
+				 var player = casino.player
+				 var Shoe = casino.Shoe
 			function startGame(listOfPlayers,deck){
 				for (var i = 0; i<listOfPlayers.length;i++){
 						for (var numCards = 1;numCards<=2;numCards++){
@@ -29,6 +31,7 @@ var blackjack = (function (num){
     	var total = 0
 			//checks to see if the total is greater than 21.
 			isBust(hand)
+			isTwentyOne(hand)	
 								for (j=0;j<hand.length;j++){
 								// the if statement checks to see if the total is more than 21 and if so makes the ace 1.
 								if (isBust&&hand[j].value==11){
@@ -54,9 +57,9 @@ var blackjack = (function (num){
         
           // takes a number and  returns a shuffled shoe with that many decks that many times *5
       function getDeck(num){  
-              var blackjackDeck = newDeck.getShoe(num)
+              var blackjackDeck = new Shoe(num)
               for (i=0; i<=num*5;i++){
-                  blackjackDeck = newDeck.Shuffle(blackjackDeck)
+                  blackjackDeck = Deck.Shuffle(blackjackDeck)
               }
               return blackjackDeck
               }
