@@ -21,13 +21,13 @@ var blackjack = (function (num){
 				//-2 because dealer will always be listOfPlayers.1
 				for (var i = 0; i<=listOfPlayers.length-2;i++){
 					if(listOfPlayers[i].value>dealer.value){
-						listOfPlayers[i].results= " "+ listOfPlayers[i].name+"you win"
+						listOfPlayers[i].results= " "+ listOfPlayers[i].name+'you win'
 					}
 					else if(listOfPlayers[i].value<dealer.value){
-					listOfPlayers[i].results= " "+ listOfPlayers[i].name+"you win"
+					listOfPlayers[i].results= " "+ listOfPlayers[i].name+'you win'
 					}
 					else{
-					listOfPlayers[i].results= " "+listOfPlayers[i].name+"you push with the dealer"
+					listOfPlayers[i].results= " "+listOfPlayers[i].name+'you push with the dealer'
 					}
 				}
 			}
@@ -35,11 +35,15 @@ var blackjack = (function (num){
 				listOfPlayers.currentPlayer=false
 				listOfPlayers[x+1]=true
 			}
-			function dealerGame(dealer,deck){
+			function dealerGame(player,deck){
+				var dealer = player[player.length-1]
+				dealer.hand[0].flipOver=true
 				dealer.value=getHandTotal(dealer.hand)
+				while (dealer.value<=16){
 				if (dealer.value<17){
 					dealer.hand = hit(dealer.hand,deck)
-					dealerGame(dealer.hand,deck)
+					dealer.value=getHandTotal(dealer.hand)
+					
 				}
 				else if(dealer.value<=21 && dealer.value>=17){
 					return dealer.value
@@ -47,7 +51,7 @@ var blackjack = (function (num){
 				else if (isBust){
 					return dealer.value
 				}
-				
+				}
 				}
 			function getCurrentPlayer(listOfPlayers){
 				for (var i; i<listOfPlayers.length-1;i++){

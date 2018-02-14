@@ -8,7 +8,7 @@
 				'order':value,
 				'value':value,	
 				'flipOver':true,
-				'image':'image/'+suit+value
+				'image':'image/'+suit+value+'.bmp'
 		 			}
 		return singleCard
 		 }
@@ -34,7 +34,7 @@
 	
 	
 
-		//shuffles deck
+
    
 		
 
