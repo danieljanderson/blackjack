@@ -14,8 +14,52 @@ var blackjack = (function (num){
           //shuffle deck  takes deck 
           //get deck which takes a deck
          var Deck = casino.Deck
-				 var player = casino.player
+				 var player = casino.Player
 				 var Shoe = casino.Shoe
+			function endGame(listOfPlayers){
+				var dealer = listOfPlayers[listOfPlayers.length-1]
+				//-2 because dealer will always be listOfPlayers.1
+				for (var i = 0; i<=listOfPlayers.length-2;i++){
+					if(listOfPlayers[i].value>dealer.value){
+						listOfPlayers[i].results= " "+ listOfPlayers[i].name+"you win"
+					}
+					else if(listOfPlayers[i].value<dealer.value){
+					listOfPlayers[i].results= " "+ listOfPlayers[i].name+"you win"
+					}
+					else{
+					listOfPlayers[i].results= " "+listOfPlayers[i].name+"you push with the dealer"
+					}
+				}
+			}
+			function changePlayers(listOfPlayers){
+				listOfPlayers.currentPlayer=false
+				listOfPlayers[x+1]=true
+			}
+			function dealerGame(dealer,deck){
+				dealer.value=getHandTotal(dealer.hand)
+				if (dealer.value<17){
+					dealer.hand = hit(dealer.hand,deck)
+					dealerGame(dealer.hand,deck)
+				}
+				else if(dealer.value<=21 && dealer.value>=17){
+					return dealer.value
+				}
+				else if (isBust){
+					return dealer.value
+				}
+				
+				}
+			function getCurrentPlayer(listOfPlayers){
+				for (var i; i<listOfPlayers.length-1;i++){
+						if(listOfPlayers[i].currentPlayer){
+								return listOfPlayers[i]
+						}
+					else if (listOfPlayers[i].dealer){
+						dealerGame(listOfPlayers[i])
+					}
+				}
+				
+			}
 			function startGame(listOfPlayers,deck){
 				for (var i = 0; i<listOfPlayers.length;i++){
 						for (var numCards = 1;numCards<=2;numCards++){
@@ -25,28 +69,30 @@ var blackjack = (function (num){
 								}
 							}
 						}
+				listOfPlayers[0].currentPlayer=true
 						
 				}
 			function getHandTotal (hand){
     	var total = 0
-			//checks to see if the total is greater than 21.
-			isBust(hand)
-			isTwentyOne(hand)	
+			
 								for (j=0;j<hand.length;j++){
+								//checks to see if the total is greater than 21.
+								isBust(total)
+								isTwentyOne(hand)		
 								// the if statement checks to see if the total is more than 21 and if so makes the ace 1.
-								if (isBust&&hand[j].value==11){
+								if (isBust&&hand[j].order=='Ace'){
 									hand[j].value=1
 								}	
-               else if (hand[j].value==='King'||hand[j].value==='Queen'||hand[j].value==='Jack'){
+                if (hand[j].order==='King'||hand[j].order==='Queen'||hand[j].order==='Jack'){
                     hand[j].value= 10
                  }
-                else if (hand[j].value ==='Ace'){
+                else if (hand[j].order ==='Ace'){
                     hand[j].value = 11
                   }
                 else{
-                    hand[j].value = Number(hand[j].value)
+                    hand[j].value = Number(hand[j].order)
                     }
-            total = hand[j]+total
+            total = hand[j].value+total
               }
           	return total
           }
@@ -59,7 +105,7 @@ var blackjack = (function (num){
       function getDeck(num){  
               var blackjackDeck = new Shoe(num)
               for (i=0; i<=num*5;i++){
-                  blackjackDeck = Deck.Shuffle(blackjackDeck)
+                 blackjackDeck.shuffle(num)
               }
               return blackjackDeck
               }
@@ -68,7 +114,7 @@ var blackjack = (function (num){
               var listOfPlayers = [] 
                   //start the loop at one because thats how normal people count
                   for(i=1;i<=num+1;i++){
-                      var blackjackPlayer = new player.hand() 
+                      var blackjackPlayer = new player() 
                       blackjackPlayer.name = 'player'+ i
                   if (i===num+1){
                       blackjackPlayer.name = 'dealer'
@@ -97,7 +143,7 @@ var blackjack = (function (num){
 		 }
 	
      function draw(deck){
-              var tempCard= deck.splice(1,1)
+              var tempCard= deck.Shoe.splice(1,1)
               return tempCard
           }
      
@@ -111,6 +157,10 @@ var blackjack = (function (num){
 		'hit':hit,
 		'isBust':isBust,
 		'isTwentyOne':isTwentyOne,
+		'getCurrentPlayer':getCurrentPlayer,
+		'dealerGame':dealerGame,
+		'changePlayers':changePlayers,
+		'endGame':endGame
     
 	}
   return module

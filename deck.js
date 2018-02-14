@@ -1,6 +1,6 @@
  casino.Deck = (function(){
 		var SUITS = ['Clubs','Diamands','Hearts','Spades']
-    var ORDER_VALUE = ['Ace','2','3','4','5','6','7','8','9','10','Jack','Qeen','King']
+    var ORDER_VALUE = ['Ace','2','3','4','5','6','7','8','9','10','Jack','Queen','King']
     //creates a 52 card deck
 		function getCard(suit,value){
 				var singleCard={
@@ -41,4 +41,4 @@
 
   return Deck
 })()
-module.exports=newDeck
+

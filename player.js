@@ -1,4 +1,4 @@
-casino.player = (function(){
+casino.Player = (function(){
   function Hand(){
     this.name = '',
     this.hand = [],
@@ -7,12 +7,10 @@ casino.player = (function(){
     this.money = 0
   }  
   
-  var module = {
-      'hand':Hand
-  }
-  return module  
+ 
+  return Hand
 })()
-module.exports=player
+
 
 
 

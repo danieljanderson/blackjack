@@ -9,11 +9,11 @@ casino.Shoe =
 					this.Shoe= this.Shoe.concat(tempDeck.cards)
 				}
 				this.shuffle = function (){
-        var randomizedDeck = []
-        while (this.Shoe.length!==0){
+        	var randomizedDeck = []
+        	while (this.Shoe.length!==0){
             var rIndex= Math.floor(this.Shoe.length * Math.random())
             randomizedDeck.push(this.Shoe[rIndex])
-             this.cards.splice(rIndex,1)
+             this.Shoe.splice(rIndex,1)
         }
          this.Shoe = randomizedDeck
 				}
