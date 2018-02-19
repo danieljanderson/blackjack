@@ -13,95 +13,96 @@ var blackjack = (function (num){
           //player draws two cards takes (player hand and deck)
           //shuffle deck  takes deck 
           //get deck which takes a deck
-         var Deck = casino.Deck
+         
+				var Deck = casino.Deck
 				 var player = casino.Player
 				 var Shoe = casino.Shoe
 			function endGame(listOfPlayers){
 				var dealer = listOfPlayers[listOfPlayers.length-1]
 				//-2 because dealer will always be listOfPlayers.1
 				for (var i = 0; i<=listOfPlayers.length-2;i++){
-					if(listOfPlayers[i].value>dealer.value){
+						if(listOfPlayers[i].value>dealer.value){
+							listOfPlayers[i].results= " "+ listOfPlayers[i].name+'you win'
+						}
+						else if(listOfPlayers[i].value<dealer.value){
 						listOfPlayers[i].results= " "+ listOfPlayers[i].name+'you win'
-					}
-					else if(listOfPlayers[i].value<dealer.value){
-					listOfPlayers[i].results= " "+ listOfPlayers[i].name+'you win'
-					}
-					else{
-					listOfPlayers[i].results= " "+listOfPlayers[i].name+'you push with the dealer'
-					}
+						}
+						else{
+						listOfPlayers[i].results= " "+listOfPlayers[i].name+'you push with the dealer'
+						}
 				}
 			}
 			function changePlayers(listOfPlayers){
-				listOfPlayers.currentPlayer=false
-				listOfPlayers[x+1]=true
+				
+				var index = getCurrentPlayer(listOfPlayers)
+				listOfPlayers.currentPlayer = listOfPlayers.playersArray[index+1].name
 			}
 			function dealerGame(player,deck){
 				var dealer = player[player.length-1]
 				dealer.hand[0].flipOver=true
 				dealer.value=getHandTotal(dealer.hand)
 				while (dealer.value<=16){
-				if (dealer.value<17){
-					dealer.hand = hit(dealer.hand,deck)
-					dealer.value=getHandTotal(dealer.hand)
+						if (dealer.value<17){
+							dealer.hand = hit(dealer.hand,deck)
+							dealer.value=getHandTotal(dealer.hand)
 					
-				}
-				else if(dealer.value<=21 && dealer.value>=17){
-					return dealer.value
-				}
-				else if (isBust){
-					return dealer.value
-				}
-				}
-				}
-			function getCurrentPlayer(listOfPlayers){
-				for (var i; i<listOfPlayers.length-1;i++){
-						if(listOfPlayers[i].currentPlayer){
-								return listOfPlayers[i]
 						}
-					else if (listOfPlayers[i].dealer){
-						dealerGame(listOfPlayers[i])
-					}
+						else if(dealer.value<=21 && dealer.value>=17){
+						return dealer.value
+						}
+						else if (isBust){
+						return dealer.value
+						}
 				}
+			}
+			function getCurrentPlayer(listOfPlayers){
+
+					var index = listOfPlayers.playerNames.indexOf(listOfPlayers.currentPlayer)
+					return index
 				
 			}
 			function startGame(listOfPlayers,deck){
-				for (var i = 0; i<listOfPlayers.length;i++){
-						for (var numCards = 1;numCards<=2;numCards++){
-						listOfPlayers[i].hand = listOfPlayers[i].hand.concat(draw(deck))
-						if (listOfPlayers[i].dealer && numCards===1){
-									listOfPlayers[i].hand[0].flipOver = false
+					for (var i = 0; i<listOfPlayers.playersArray.length;i++){
+							for (var numCards = 1;numCards<=2;numCards++){
+							listOfPlayers.playersArray[i].hand = listOfPlayers.playersArray[i].hand.concat(draw(deck))
+									if (listOfPlayers.playersArray[i].dealer && numCards===1){
+											listOfPlayers.playersArray[i].hand[0].flipOver = false
+									}
 								}
-							}
-						}
-				listOfPlayers[0].currentPlayer=true
+					}
+			listOfPlayers.currentPlayer = listOfPlayers.playersArray[0].name
 						
-				}
+		}
 			function getHandTotal (hand){
     	var total = 0
 			
-								for (j=0;j<hand.length;j++){
+					for (j=0;j<hand.length;j++){
 								//checks to see if the total is greater than 21.
-								isBust(total)
-								isTwentyOne(hand)		
+							isBust(total)
+							isTwentyOne(hand)		
 								// the if statement checks to see if the total is more than 21 and if so makes the ace 1.
-								if (isBust&&hand[j].order=='Ace'){
+							if (isBust&&hand[j].order=='Ace'){
 									hand[j].value=1
-								}	
-                if (hand[j].order==='King'||hand[j].order==='Queen'||hand[j].order==='Jack'){
-                    hand[j].value= 10
-                 }
-                else if (hand[j].order ==='Ace'){
-                    hand[j].value = 11
-                  }
-                else{
+							}	
+              else if (hand[j].order==='King'||hand[j].order==='Queen'||hand[j].order==='Jack'){
+                   			 hand[j].value= 10
+               }
+              else if (hand[j].order ==='Ace'){
+                    		hand[j].value = 11
+               }
+              else{
                     hand[j].value = Number(hand[j].order)
-                    }
-            total = hand[j].value+total
               }
+            total = hand[j].value+total
+           }
           	return total
-          }
-			function hit (hand,deck){
+      }
+			function hit (listOfPlayers,hand,deck){
 					hand = hand.concat(draw(deck))
+					hand.value = getHandTotal(hand)
+					if (hand.value>22){
+						changePlayers(listOfPlayers)
+					}
 					return hand
 			}
         
@@ -112,19 +113,21 @@ var blackjack = (function (num){
                  blackjackDeck.shuffle(num)
               }
               return blackjackDeck
-              }
+        }
           // takes a number and  returns that many  players hand plus a dealer
       function getPlayer(num){
-              var listOfPlayers = [] 
+              var listOfPlayers = {'playersArray':[], 'currentPlayer':null,'playerNames':[]} 
                   //start the loop at one because thats how normal people count
-                  for(i=1;i<=num+1;i++){
-                      var blackjackPlayer = new player() 
-                      blackjackPlayer.name = 'player'+ i
-                  if (i===num+1){
-                      blackjackPlayer.name = 'dealer'
-                      blackjackPlayer.dealer = true   
-                  }
-                  listOfPlayers.push(blackjackPlayer)
+                  for(var i=1;i<=num+1;i++){
+                    var blackjackPlayer = new player() 
+                    blackjackPlayer.name = 'player'+ i
+										listOfPlayers.playerNames.push('player'+i)
+                  	if (i===num+1){
+                      	blackjackPlayer.name = 'dealer'
+												listOfPlayers.playerNames.push('dealer')
+                      	blackjackPlayer.dealer = true   
+                  	}
+                  listOfPlayers.playersArray.push(blackjackPlayer)
                   }
                 //to acess the players its variablename[index]. and what you want
                 return listOfPlayers
@@ -147,9 +150,9 @@ var blackjack = (function (num){
 		 }
 	
      function draw(deck){
-              var tempCard= deck.Shoe.splice(1,1)
-              return tempCard
-          }
+         var tempCard= deck.Shoe.splice(1,1)
+         return tempCard
+       }
      
       
 	var module ={
@@ -164,7 +167,8 @@ var blackjack = (function (num){
 		'getCurrentPlayer':getCurrentPlayer,
 		'dealerGame':dealerGame,
 		'changePlayers':changePlayers,
-		'endGame':endGame
+		'endGame':endGame,
+	
     
 	}
   return module
