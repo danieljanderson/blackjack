@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-     <script src = "https://code.jquery.com/jquery-3.2.1.js"></script>
+    <title>Blackjack</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <script src = "https://code.jquery.com/jquery-3.2.1.js"></script>
     <script src = "casino.js"></script>
     <script src = "deck.js"></script>
     <script src = "shoe.js"></script>
@@ -9,9 +11,43 @@
     <script src = "blackjack.js"></script>
     <script src = "app.js"></script>
     <link rel ="stylesheet"href ="blackjack.css"></link>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
   </head>
 <body>
-  <div id = "main">
+  <nav class = "navbar navbar-inverse">
+      <div class ="container-fluid">
+        <div class="navbar-header">
+          <button type = "button" class="navbar-toggle" data-toggle="collapse" data-target="#MyNavabar">
+            <span class ="icon-bar"></span>
+            <span class ="icon-bar"></span>
+            <span class ="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav navbar right">
+            <li>
+              <a href= "https://danieljanderson.github.io/">Home</a>
+            </li>
+            <li>
+              <a href= "https://danieljanderson.github.io/pet/">Tamagotchi</a>
+            </li> 
+            <li class = "active dropdown-submenu"><a href="#">Blackjack</a>
+              <ul class = "dropdown-menu">
+                <li><a href ="#">New Game</a></li>
+                <li><a href="#">Save Game</a></li>
+                <li><a href="#">Load Game</a></li>
+                <li><a href="#">Quit Game</a></li>
+              </ul>
+              
+            </li>
+          </ul>
+        </div>
+    </div>
+  </nav>
     
   </div>
   </body>

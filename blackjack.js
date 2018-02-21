@@ -75,26 +75,31 @@ var blackjack = (function (num){
 		}
 			function getHandTotal (hand){
     	var total = 0
+			var ace_count = 0
 			
-					for (j=0;j<hand.length;j++){
+					for (var j=0;j<hand.length;j++){
 								//checks to see if the total is greater than 21.
 							isBust(total)
 							isTwentyOne(hand)		
 								// the if statement checks to see if the total is more than 21 and if so makes the ace 1.
-							if (isBust&&hand[j].order=='Ace'){
-									hand[j].value=1
-							}	
-              else if (hand[j].order==='King'||hand[j].order==='Queen'||hand[j].order==='Jack'){
+            if (hand[j].order==='King'||hand[j].order==='Queen'||hand[j].order==='Jack'){
                    			 hand[j].value= 10
                }
               else if (hand[j].order ==='Ace'){
                     		hand[j].value = 11
+											ace_count++
                }
               else{
                     hand[j].value = Number(hand[j].order)
               }
             total = hand[j].value+total
-           }
+					}
+				for(var i=0;i<ace_count;i++){
+					if (total <=21){
+						return total
+						}
+				total-=10
+				}
           	return total
       }
 			function hit (listOfPlayers,hand,deck){
