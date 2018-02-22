@@ -62,7 +62,7 @@ var blackjack = (function (num){
 				
 			}
 			function startGame(listOfPlayers,deck){
-					for (var i = 0; i<listOfPlayers.playersArray.length;i++){
+					for (var i = 0; i<listOfPlayers.playersArra;i++){
 							for (var numCards = 1;numCards<=2;numCards++){
 							listOfPlayers.playersArray[i].hand = listOfPlayers.playersArray[i].hand.concat(draw(deck))
 									if (listOfPlayers.playersArray[i].dealer && numCards===1){
