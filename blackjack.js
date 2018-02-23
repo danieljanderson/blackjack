@@ -62,9 +62,9 @@ var blackjack = (function (num){
 				
 			}
 			function startGame(listOfPlayers,deck){
-					for (var i = 0; i<listOfPlayers.playersArra;i++){
+					for (var i = 0; i<listOfPlayers.playersArray.length;i++){
 							for (var numCards = 1;numCards<=2;numCards++){
-							listOfPlayers.playersArray[i].hand = listOfPlayers.playersArray[i].hand.concat(draw(deck))
+									listOfPlayers.playersArray[i].hand = listOfPlayers.playersArray[i].hand.concat(draw(deck))
 									if (listOfPlayers.playersArray[i].dealer && numCards===1){
 											listOfPlayers.playersArray[i].hand[0].flipOver = false
 									}
@@ -123,13 +123,13 @@ var blackjack = (function (num){
       function getPlayer(num){
               var listOfPlayers = {'playersArray':[], 'currentPlayer':null,'playerNames':[]} 
                   //start the loop at one because thats how normal people count
-                  for(var i=1;i<=num+1;i++){
+                  for(var i=0;i<=num;i++){
                     var blackjackPlayer = new player() 
-                    blackjackPlayer.name = 'player'+ i
-										listOfPlayers.playerNames.push('player'+i)
-                  	if (i===num+1){
+                    blackjackPlayer.name = 'player'+ (i +1)
+										listOfPlayers.playerNames.push(blackjackPlayer.name)
+                  	if (i===num){
                       	blackjackPlayer.name = 'dealer'
-												listOfPlayers.playerNames.push('dealer')
+												listOfPlayers.playerNames[i] = 'dealer'
                       	blackjackPlayer.dealer = true   
                   	}
                   listOfPlayers.playersArray.push(blackjackPlayer)

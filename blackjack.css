@@ -15,3 +15,6 @@ body{
 .navbar{
   float:right;
 }
+#user_name{
+  display:none
+}
