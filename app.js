@@ -44,6 +44,7 @@ $(function(){
 											$('#ShoeSize').submit()
 											$('#number_of_decks').toggle()
 											//e.stopPropagation()
+											generateButtons()	
 											setupGameBoard(numberOfPlayers,numberOfDecks)
 									}
 								})	
@@ -89,6 +90,8 @@ $(function(){
 				//}
 			}
 			displayTotal(players)
+			$("#hit_button").click({param1: players, param2: deck}, hitButton);
+		
 		}
 		function displayTotal(players){
 		
@@ -125,8 +128,19 @@ $(function(){
 		return imageString
 	}
 	
-	
+	function hitButton(e){
+		
+		console.log(e)
+		var players=e.data.param1
+		var deck = e.data.param2
+		var index = blackjack.getCurrentPlayer(players)
+		players=blackjack.hit(players,deck)
+		for(var i=0; i < players.playersArray[index].hand.length;i++){
+		$('#'+players.playersArray[index].name+'_container').append(displayCards(players.playersArray[index].hand[i]))
+		displayTotal(players)	
 
+	}
+	}
 
 
 
@@ -134,6 +148,6 @@ $(function(){
 
 
 	setupGame()
-	generateButtons()	
+
 
 })

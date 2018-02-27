@@ -102,13 +102,17 @@ var blackjack = (function (num){
 				}
           	return total
       }
-			function hit (listOfPlayers,hand,deck){
+			function hit (listOfPlayers,deck){
+					var hand
+					var index =	getCurrentPlayer(listOfPlayers)
+					hand = listOfPlayers.playersArray[index].hand
 					hand = hand.concat(draw(deck))
 					hand.value = getHandTotal(hand)
 					if (hand.value>22){
 						changePlayers(listOfPlayers)
 					}
-					return hand
+				listOfPlayers.playersArray[index].hand = hand	
+				return listOfPlayers
 			}
         
           // takes a number and  returns a shuffled shoe with that many decks that many times *5
