@@ -11,6 +11,7 @@ $(function(){
 				$('#user_name').toggle()
 				//gets username from user when user presses enter.
 				$('#user_name_form').keydown(function(e) {
+						e.stopPropagation()
 					var key = e.which
 					// ASCII code for enter
 					if (key == 13) {
@@ -21,8 +22,9 @@ $(function(){
 						$('#user_name_form').toggle()
 						//opens the player prompt.  this is where the user sets the number of players.  up to 7.  not including the dealer
 						$('#Player_numbers').toggle()
-						e.stopPropagation()
+						//e.stopPropagation()
 						$('.btn-primary').on('click',function(e){
+								e.stopPropagation()
 								numberOfPlayers = $('#inlineFormCustomSelect').val()
 								//makes number of players into an int
 								numberOfPlayers=Number(numberOfPlayers)
@@ -31,8 +33,9 @@ $(function(){
 								$('#Player_numbers').toggle()
 								//opens the shoe prompt.  this is where the user determins how many decks are in the shoe.
 								$('#number_of_decks').toggle()
-								e.stopPropagation()
+								//e.stopPropagation()
 								$('#ShoeSize').keydown(function(e){
+									e.stopPropagation()
 									var key = e.which	
 									if(key ==13){
 											numberOfDecks =$('#ShoeSize').val()
@@ -40,7 +43,7 @@ $(function(){
 											numberOfDecks= Number(numberOfDecks)
 											$('#ShoeSize').submit()
 											$('#number_of_decks').toggle()
-											e.stopPropagation()
+											//e.stopPropagation()
 											setupGameBoard(numberOfPlayers,numberOfDecks)
 									}
 								})	
@@ -75,30 +78,50 @@ $(function(){
 				//going through the players array
 				// selecting the player at index i
 				//then going through their hand
-				//for(var j = 0; j<players.playersArray[i].hand.length;j++){
-				$('#'+players.playersArray[i].name+'_container').append(displayCards(players.playersArray[i].hand))
-				//}		
+				// if no answer to tomorrow.   go back to the way it was when it was working but just make the loop into another function.
+				for(var j = 0; j<players.playersArray[i].hand.length;j++){
+				$('#'+players.playersArray[i].name+'_container').append(displayCards(players.playersArray[i].hand[j]))
+				}
+				//while(players.playersArray[i].dealer===false){
+					//players.playersArray[i].value=blackjack.getHandTotal(players.playersArray[i].hand)
+					//var playerDisplayTotal= ('<div class = players.playersArray.total>'+players.playersArray[i].value+'</div>')	
+					//$('#'+players.playersArray[i].name+'_container').append(playerDisplayTotal)	
+				//}
 			}
+			displayTotal(players)
 		}
-
+		function displayTotal(players){
+		
+			for (var i = 0; i<players.playersArray.length;i++){
+					if (players.playersArray[i].dealer){
+						break
+					}
+				else{
+					players.playersArray[i].value=blackjack.getHandTotal(players.playersArray[i].hand)
+					var playerDisplayTotal= ('<div class = players.playersArray.total>'+players.playersArray[i].value+'</div>')	
+					$('#'+players.playersArray[i].name+'_container').append(playerDisplayTotal)	
+				}
+			}
+			
+		}
 		function generateButtons(){
 			var hitButton = '<button id="hit_button" class="btn" type="button">hit</button>'
 			var stayButton ='<button id="stay_button" class="btn" type="button">stay</button>'
 			var buttonContainer=('<div id="buttonContainer">'+hitButton+stayButton+'</div>')
 			$('body').append(buttonContainer)
 	}
-	function displayCards(hand){
+	function displayCards(card){
 			var imageString
-			for (var i = 0; i<hand.length;i++){
-			if(hand[i].flipOver){
+	
+			if(card.flipOver){
 				//return
-				imageString='<img src='+hand[i].image+' alt="card_image">'
+				imageString='<img src='+card.image+' alt="card_image">'
 				}
 			else{
 				//return 
 				imageString='<img src="image/b2fv.bmp" alt="back_of_card_image">'
 			}
-			}
+			
 		return imageString
 	}
 	
