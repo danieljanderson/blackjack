@@ -75,23 +75,31 @@ $(function(){
 				//going through the players array
 				// selecting the player at index i
 				//then going through their hand
-				for(var j = 0; j<players.playersArray[i].hand.length;j++){
-				$('#'+players.playersArray[i].name+'_container').append(displayCards(players.playersArray[i].hand[j]))
-				}		
+				//for(var j = 0; j<players.playersArray[i].hand.length;j++){
+				$('#'+players.playersArray[i].name+'_container').append(displayCards(players.playersArray[i].hand))
+				//}		
 			}
 		}
 
 		function generateButtons(){
-		
+			var hitButton = '<button id="hit_button" class="btn" type="button">hit</button>'
+			var stayButton ='<button id="stay_button" class="btn" type="button">stay</button>'
+			var buttonContainer=('<div id="buttonContainer">'+hitButton+stayButton+'</div>')
+			$('body').append(buttonContainer)
 	}
-	function displayCards(card){
-			if(card.flipOver){
-				return'<img src='+card.image+' alt="card_image">'
+	function displayCards(hand){
+			var imageString
+			for (var i = 0; i<hand.length;i++){
+			if(hand[i].flipOver){
+				//return
+				imageString='<img src='+hand[i].image+' alt="card_image">'
 				}
 			else{
-				return '<img src="image/b2fv.bmp" alt="back_of_card_image">'
+				//return 
+				imageString='<img src="image/b2fv.bmp" alt="back_of_card_image">'
 			}
-		
+			}
+		return imageString
 	}
 	
 	
