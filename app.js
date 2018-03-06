@@ -1,6 +1,8 @@
 $(function(){
 	//to do make a menu that has a button with - that will allow some one to go home go to the pet app or save game load game or quit game in blackjack
 	//this menu will stay the same no matter the device.
+	// toDo rework the dealer game so that it takes a list of players and then after the dealer is done it goes stright to the end game.
+	//toDo fix the logic of the hit function.  its also getting undefined because in the hit function it wants to change players after the dealer.
 		var userName = ''
 		function setupGame(){
 		var numberOfPlayers = 0
@@ -67,7 +69,9 @@ $(function(){
 				var playerNameHtml=('<div id ='+players.playersArray[i].name+'_container></div>')
 				var playerDisplayName = ('<div class = playersName>'+players.playersArray[i].name+'</div>')
 				$('#players_seat').prepend(playerNameHtml)
-				$('#'+players.playersArray[i].name+'_container').append(playerDisplayName)	
+				$('#'+players.playersArray[i].name+'_container').append(playerDisplayName)
+				var cardContainer ='<div id='+players.playersArray[i].name+'card_container></div>'
+				$('#'+players.playersArray[i].name+'_container').append(cardContainer)
 			}
 			gamePlay(players,deck)
 		}
@@ -81,7 +85,7 @@ $(function(){
 				//then going through their hand
 				// if no answer to tomorrow.   go back to the way it was when it was working but just make the loop into another function.
 				for(var j = 0; j<players.playersArray[i].hand.length;j++){
-				$('#'+players.playersArray[i].name+'_container').append(displayCards(players.playersArray[i].hand[j]))
+				$('#'+players.playersArray[i].name+'card_container').append(displayCards(players.playersArray[i].hand[j]))
 				}
 				//while(players.playersArray[i].dealer===false){
 					//players.playersArray[i].value=blackjack.getHandTotal(players.playersArray[i].hand)
@@ -134,6 +138,9 @@ $(function(){
 		var players=e.data.param1
 		var deck = e.data.param2
 		var index = blackjack.getCurrentPlayer(players)
+		if (players.playerNames[index]=='dealer'){
+			blackjack.dealerGame(players,deck)
+		}
 		players=blackjack.hit(players,deck)
 		for(var i=0; i < players.playersArray[index].hand.length;i++){
 		$('#'+players.playersArray[index].name+'_container').append(displayCards(players.playersArray[index].hand[i]))

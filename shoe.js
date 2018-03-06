@@ -14,9 +14,12 @@ casino.Shoe =
             var rIndex= Math.floor(this.Shoe.length * Math.random())
             randomizedDeck.push(this.Shoe[rIndex])
              this.Shoe.splice(rIndex,1)
-        }
+        	}
          this.Shoe = randomizedDeck
 				}
-	}
+				this.draw= function(){
+					return this.Shoe.splice(0,1)
+				}
+		}
 
 	return Shoe	})()

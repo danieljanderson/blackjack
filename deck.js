@@ -28,7 +28,10 @@
              this.cards.splice(rIndex,1)
         }
          this.cards = randomizedDeck
-    }	
+    }
+			this.draw= function(){
+					return this.Deck.slice(1)
+			}
 		}		
 		
 	

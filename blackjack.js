@@ -1,24 +1,63 @@
 //var DECK = require('./deck.js')
 var blackjack = (function (num){
-         	// to get the score to display correctly you have to player[1].value=blackjack.getScore(player[1].hand).
-					// to start deal to start the game have a nested for loop where it looks like this...  2 beacue in black jack you start off with 2 cards always
-					// for (i=0;i<=2;i++)
-					//		for(j=0;j<=numberofplaers_including_dealer;j++)
-					//			numberofplayers[j] draws and then it gos around.  flip the order of the j and i loops if you deal 2 cards at a time
-					// to add a single card to a players hand it would be hand.push(draw(deck))
-          //calculate dealer hands if >=17 dealer stays
-          //dealer flips two cards
-          //calculate hand value
-          //dealer draws two cards but only flips one over (player hand and deck)
-          //player draws two cards takes (player hand and deck)
-          //shuffle deck  takes deck 
-          //get deck which takes a deck
-         
-				var Deck = casino.Deck
-				 var player = casino.Player
-				 var Shoe = casino.Shoe
-			function endGame(listOfPlayers){
-				var dealer = listOfPlayers[listOfPlayers.length-1]
+	var game = function (num){
+	var DEALER_INDEX = -1
+	var current_turn = 0
+	var deck = []
+	this.playerArray =  []		
+
+			function deal(playerArray,deck){
+			for (var i = 0; i<playerArray.length;i++){
+							for (var numCards = 0;numCards<2;numCards++){
+							console.log('this is in a for loop')
+								playerArray[i].recieveCard(deck.draw())	
+							}
+					}
+		}
+	function createDealer(){
+		var dealer = new casino.Player()
+		dealer.name='dealer'
+		return dealer
+	}
+	 function createDeck (num){  
+              var blackjackDeck = new casino.Shoe(num)
+							console.log(blackjackDeck)
+              for ( var i=0; i <= (num*5) ;i++){
+                 blackjackDeck.shuffle()
+              }
+              return blackjackDeck
+        }
+		function  createPlayers(num){
+                  var arrayOfPlayers = []
+									for(var i=0;i<num;i++){
+										//console.log(i)
+                		//console.log(casino.Player())
+										var newPlayer = new casino.Player() 
+                    newPlayer.name= 'player'+ (i +1)
+										//console.log(newPlayer)
+										arrayOfPlayers.push(newPlayer)
+       							//console.log("this is the end of the loop")
+										//console.log(arrayOfPlayers)
+                  	
+                 
+									}
+                //to acess the players its variablename[index]. and what you want
+                console.log(arrayOfPlayers)
+									return arrayOfPlayers
+									  
+          }
+			
+			this.startGame=function(numOfPlayers,numOfDeck){
+			console.log(createPlayers(numOfPlayers))
+			this.playerArray = createPlayers(numOfPlayers)
+			this.deck = createDeck(numOfDeck)	
+			deal(this.playerArray,this.deck) 
+			//this.dealer= createDealer()
+		}
+		
+			/*this.endGame= function (){
+				console.log("the end game"+listOfPlayers)
+				var dealer = listOfPlayers.playersArray[listOfPlayers.length-1]
 				//-2 because dealer will always be listOfPlayers.1
 				for (var i = 0; i<=listOfPlayers.length-2;i++){
 						if(listOfPlayers[i].value>dealer.value){
@@ -31,14 +70,11 @@ var blackjack = (function (num){
 						listOfPlayers[i].results= " "+listOfPlayers[i].name+'you push with the dealer'
 						}
 				}
-			}
-			function changePlayers(listOfPlayers){
 				
-				var index = getCurrentPlayer(listOfPlayers)
-				listOfPlayers.currentPlayer = listOfPlayers.playersArray[index+1].name
 			}
-			function dealerGame(player,deck){
-				var dealer = player[player.length-1]
+
+			function dealerGame(listOfPlayers,deck){
+				var dealer = listOfPlayers.playersArray[listOfPlayers.playersArray.length-1]
 				dealer.hand[0].flipOver=true
 				dealer.value=getHandTotal(dealer.hand)
 				while (dealer.value<=16){
@@ -48,20 +84,24 @@ var blackjack = (function (num){
 					
 						}
 						else if(dealer.value<=21 && dealer.value>=17){
-						return dealer.value
+						listOfPlayers.playersArray[listOfPlayers.playersArray.length-1] = dealer.value
+							endGame(listOfPlayers)
 						}
 						else if (isBust){
-						return dealer.value
+						listOfPlayers.playersArray[listOfPlayers.playersArray.length-1] = dealer.value
+							endGame(listOfPlayers)
 						}
 				}
 			}
-			function getCurrentPlayer(listOfPlayers){
+			function getCurrentPlayer(){
 
 					var index = listOfPlayers.playerNames.indexOf(listOfPlayers.currentPlayer)
 					return index
 				
-			}
+			}// this is the function that will start create the game 
 			function startGame(listOfPlayers,deck){
+			this.playerArray = createPlayers(num)
+			deck = createdeck	
 					for (var i = 0; i<listOfPlayers.playersArray.length;i++){
 							for (var numCards = 1;numCards<=2;numCards++){
 									listOfPlayers.playersArray[i].hand = listOfPlayers.playersArray[i].hand.concat(draw(deck))
@@ -73,7 +113,7 @@ var blackjack = (function (num){
 			listOfPlayers.currentPlayer = listOfPlayers.playersArray[0].name
 						
 		}
-			function getHandTotal (hand){
+			 this.getHandTotal=function (hand){
     	var total = 0
 			var ace_count = 0
 			
@@ -102,45 +142,48 @@ var blackjack = (function (num){
 				}
           	return total
       }
-			function hit (listOfPlayers,deck){
+			 this.hit= function (listOfPlayers,deck){
 					var hand
 					var index =	getCurrentPlayer(listOfPlayers)
 					hand = listOfPlayers.playersArray[index].hand
 					hand = hand.concat(draw(deck))
 					hand.value = getHandTotal(hand)
 					if (hand.value>22){
-						changePlayers(listOfPlayers)
+						if(listOfPlayers.playersArray[index].name==='dealer'){
+								endGame(listOfPlayers)
+						}
+						else{
+							changePlayers(listOfPlayers)
+						}
 					}
 				listOfPlayers.playersArray[index].hand = hand	
+				console.log(listOfPlayers.playersArray[index])
 				return listOfPlayers
 			}
         
           // takes a number and  returns a shuffled shoe with that many decks that many times *5
-      function getDeck(num){  
-              var blackjackDeck = new Shoe(num)
+       function createDeck (num){  
+              var blackjackDeck = new casino.Shoe(num)
               for (i=0; i<=num*5;i++){
                  blackjackDeck.shuffle(num)
               }
               return blackjackDeck
         }
           // takes a number and  returns that many  players hand plus a dealer
-      function getPlayer(num){
-              var listOfPlayers = {'playersArray':[], 'currentPlayer':null,'playerNames':[]} 
+  	function  createPlayers(num){
                   //start the loop at one because thats how normal people count
-                  for(var i=0;i<=num;i++){
-                    var blackjackPlayer = new player() 
-                    blackjackPlayer.name = 'player'+ (i +1)
-										listOfPlayers.playerNames.push(blackjackPlayer.name)
-                  	if (i===num){
-                      	blackjackPlayer.name = 'dealer'
-												listOfPlayers.playerNames[i] = 'dealer'
-                      	blackjackPlayer.dealer = true   
-                  	}
-                  listOfPlayers.playersArray.push(blackjackPlayer)
-                  }
+                  var arrayOfPlayers = []
+									for(var i=0;i<num;i++){
+                     arrayOfPlayers = new casino.players() 
+                    this.players.name= 'player'+ (i +1)
+										arrayOfPlayers.push(arrayOfPlayers)
+       
+                  	
+                 
+                  
                 //to acess the players its variablename[index]. and what you want
-                return listOfPlayers
-                
+                return arrayOfPlayers
+									}  
           }
 		 function isTwentyOne(hand){
 			 if(hand[0].value===10||11){
@@ -162,21 +205,16 @@ var blackjack = (function (num){
          var tempCard= deck.Shoe.splice(1,1)
          return tempCard
        }
+	this.createDealer=function (){
+		var dealer = new casino.player()
+		dealer.name='dealer'
+		return dealer
+	}
      
-      
+*/    
+	}
 	var module ={
-		'getDeck':getDeck,
-    'getPlayer':getPlayer,
-    'draw':draw,
-    'getHandTotal':getHandTotal,
-		'startGame':startGame,
-		'hit':hit,
-		'isBust':isBust,
-		'isTwentyOne':isTwentyOne,
-		'getCurrentPlayer':getCurrentPlayer,
-		'dealerGame':dealerGame,
-		'changePlayers':changePlayers,
-		'endGame':endGame,
+	'game':game
 	
     
 	}
@@ -184,3 +222,5 @@ var blackjack = (function (num){
 
 
 } )()
+
+		
