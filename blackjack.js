@@ -1,59 +1,69 @@
 //var DECK = require('./deck.js')
+//deck is global so i can just pass in the players for the hit function.  
 var blackjack = (function (num){
 	var game = function (num){
 	var DEALER_INDEX = -1
 	var current_turn = 0
-	var deck = []
+	var deck = createDeck(num)
 	this.playerArray =  []		
 
-			function deal(playerArray,deck){
-			for (var i = 0; i<playerArray.length;i++){
-							for (var numCards = 0;numCards<2;numCards++){
-							console.log('this is in a for loop')
-								playerArray[i].recieveCard(deck.draw())	
-							}
-					}
+		this.startGame=function(numOfPlayers){
+			this.playerArray = createPlayers(numOfPlayers)
+		//	deck = createDeck(numOfDeck)	
+			deal(this.playerArray) 
+			this.dealer= createDealer()
 		}
+	function deal(playerArray){
+	for (var i = 0; i<playerArray.length;i++){
+		for (var numCards = 0;numCards<2;numCards++){
+			playerArray[i].recieveCard(deck.draw())	
+		}
+	}
+	}
 	function createDealer(){
 		var dealer = new casino.Player()
 		dealer.name='dealer'
+		for (var numCards = 0;numCards<2;numCards++){
+					dealer.recieveCard(deck.draw())
+		}
 		return dealer
 	}
-	 function createDeck (num){  
-              var blackjackDeck = new casino.Shoe(num)
-							console.log(blackjackDeck)
-              for ( var i=0; i <= (num*5) ;i++){
-                 blackjackDeck.shuffle()
-              }
-              return blackjackDeck
+	function createDeck (num){  
+     var blackjackDeck = new casino.Shoe(num)
+        for ( var i=0; i <= (num*5) ;i++){
+        	 blackjackDeck.shuffle()
+         }
+      return blackjackDeck
         }
 		function  createPlayers(num){
-                  var arrayOfPlayers = []
-									for(var i=0;i<num;i++){
-										//console.log(i)
-                		//console.log(casino.Player())
-										var newPlayer = new casino.Player() 
-                    newPlayer.name= 'player'+ (i +1)
-										//console.log(newPlayer)
-										arrayOfPlayers.push(newPlayer)
-       							//console.log("this is the end of the loop")
-										//console.log(arrayOfPlayers)
-                  	
-                 
-									}
-                //to acess the players its variablename[index]. and what you want
-                console.log(arrayOfPlayers)
-									return arrayOfPlayers
+     	var arrayOfPlayers = []
+			for(var i=0;i<num;i++){
+				var newPlayer = new casino.Player() 
+        newPlayer.name= 'player'+ (i +1)
+				arrayOfPlayers.push(newPlayer)
+				}
+		return arrayOfPlayers
 									  
-          }
+     }
 			
-			this.startGame=function(numOfPlayers,numOfDeck){
-			console.log(createPlayers(numOfPlayers))
-			this.playerArray = createPlayers(numOfPlayers)
-			this.deck = createDeck(numOfDeck)	
-			deal(this.playerArray,this.deck) 
-			//this.dealer= createDealer()
-		}
+		
+	this.hit= function (listOfPlayers){
+		var player= this.playerArray[current_turn]		
+		console.log(player)
+			
+		//			hand.value = getHandTotal(hand)
+		//			if (hand.value>22){
+		//				if(listOfPlayers.playersArray[index].name==='dealer'){
+		//						endGame(listOfPlayers)
+		//				}
+		//				else{
+		//					changePlayers(listOfPlayers)
+		//				}
+		//			}
+		//		listOfPlayers.playersArray[index].hand = hand	
+		//		console.log(listOfPlayers.playersArray[index])
+		//		return listOfPlayers
+			}
 		
 			/*this.endGame= function (){
 				console.log("the end game"+listOfPlayers)
