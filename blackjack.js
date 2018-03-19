@@ -16,8 +16,8 @@ var blackjack = (function (num){
 			this.playerArray = createPlayers(numOfPlayers)
 			deal(this.playerArray) 
 			this.dealer= createDealer()
-			for (var i =0;i<=this.playerArray.length;i++){
-					getHandTotal(this.playerArray[i].hand)
+			for (var i =0;i<this.playerArray.length;i++){
+				this.playerArray[i].value=getHandTotal(this.playerArray[i].hand)
 					}
 		}
 	//this is a helper function that deals two cards to one player 
@@ -178,7 +178,7 @@ var blackjack = (function (num){
 	}
 	var module ={
 	'game':game
-	
+
     
 	}
   return module
