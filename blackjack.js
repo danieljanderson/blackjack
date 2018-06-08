@@ -185,19 +185,3 @@ var blackjack = (function (num){
 
 
 } )()
-/*
-QUESTIONS:
-1.why is line 18 undefined. the error says Uncaught TypeError: Cannot read property 'hand' of undefined but line 17 creates the players just fine
-i think it has to do with context.  this loses its context going into nested functions.  need help understand this an how to fix it
-2.how is it that the playerArray[i].results is getting saved in the playerArray object.  ex if you do the follow in the command line:
-var dan = new blackjack.game(8)
-dan.startGame(1)
-dan.hit() 
-dan.hit()
-and if you type in dan in the console it shows you that the results are.
-3. how do i fix question 1.
-
-
-*/
-
-		
